@@ -3,8 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loader, { LoaderSize } from "./components/Loader";
+import { useAppSelector } from "./store/store";
+import { AuthStatus } from "./store/auth/slice";
 
 const Home: React.FC = () => {
+  const authStatus = useAppSelector((state) => state.auth.status);
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -12,15 +15,15 @@ const Home: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    const authToken = localStorage.getItem("authToken");
+    const authToken = document.cookie;
 
-    if (authToken) {
+    if (authToken || authStatus === AuthStatus.AUTHORIZED) {
       setIsLoading(false);
     } else {
       setIsLoading(false);
       router.push("/login");
     }
-  }, [router]);
+  }, [router, authStatus]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">

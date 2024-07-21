@@ -1,9 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loginUser } from "./actions";
-import { Auth } from "@/lib/models/Auth";
+import { Auth } from "@/app/models/Auth";
+
+export enum AuthStatus {
+  AUTHORIZED,
+  UNAUTHORIZED,
+}
 
 interface AuthState {
   auth: Auth;
+  status: AuthStatus;
+  error: string;
   isLoading: boolean;
 }
 
@@ -12,6 +19,8 @@ const initialState: AuthState = {
     username: "",
     password: "",
   },
+  status: AuthStatus.UNAUTHORIZED,
+  error: "",
   isLoading: false,
 };
 
@@ -20,8 +29,11 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     changeAuthData(state, action: PayloadAction<Partial<Auth>>) {
-      console.log(action.payload);
-      state.auth = { ...state.auth, ...action.payload };
+      state.auth = {
+        ...state.auth,
+        ...action.payload,
+      };
+      state.error = "";
     },
     logOut(state) {
       state = initialState;
@@ -30,14 +42,20 @@ const authSlice = createSlice({
   extraReducers: ({ addCase }) => {
     addCase(loginUser.pending, (state) => {
       state.isLoading = true;
+      state.error = "";
     });
-    addCase(loginUser.fulfilled, (state, { payload }) => {
-      console.log(payload);
+    addCase(loginUser.fulfilled, (state) => {
       state.isLoading = false;
+      state.status = AuthStatus.AUTHORIZED;
     });
-    addCase(loginUser.rejected, (state, { error }) => {
-      state.isLoading = false;
-    });
+    addCase(
+      loginUser.rejected,
+      (state, action: PayloadAction<{ message: string }>) => {
+        state.isLoading = false;
+        state.error = action.payload.message;
+        state.status = AuthStatus.UNAUTHORIZED;
+      }
+    );
   },
 });
 

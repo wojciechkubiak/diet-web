@@ -1,17 +1,20 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Auth, IAuthService } from "../models/Auth";
 import { Token } from "../models/Token";
 
 export class AuthService implements IAuthService {
-  async loginUser(loginFormData: Auth): Promise<Token> {
-    return axios
+  async loginUser(
+    loginFormData: Auth,
+    rejectWithValue: (error: AxiosError) => void
+  ): Promise<Token> {
+    return await axios
       .post("/api/auth/login", loginFormData)
       .then((response) => response.data)
-      .catch((error) => error);
+      .catch(({ response: { data } }) => rejectWithValue(data));
   }
 
   async registerUser(registerFormData: Auth): Promise<Token> {
-    return axios
+    return await axios
       .post("/api/auth/register", registerFormData)
       .then((response) => response.data)
       .catch((error) => error);

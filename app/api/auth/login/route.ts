@@ -1,26 +1,30 @@
-import { Auth } from "@/lib/models/Auth";
-import { Token } from "@/lib/models/Token";
+import { cookies } from "next/headers";
 import axios from "axios";
 import { NextResponse } from "next/server";
+import { Auth } from "@/app/models/Auth";
 
 export const POST = async (request: Request) => {
   const loginData: Auth = await request.json();
 
   return await axios
     .post("http://localhost:3001/api/v1/auth/signin", loginData)
-    .then((response: { data: { accessToken: string } }) => {
-      return NextResponse.json(response.data);
+    .then(({ data: { accessToken } }) => {
+      cookies().set("session", accessToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 86400,
+        path: "/",
+      });
+
+      return NextResponse.json({ accessToken });
     })
     .catch(
-      (error: {
+      ({
         response: {
-          data: { message: string; statusCode: number };
-        };
+          data: { message, statusCode },
+        },
       }) => {
-        return NextResponse.json(
-          { error: error.response.data.message },
-          { status: error.response.data.statusCode }
-        );
+        return NextResponse.json({ message }, { status: statusCode });
       }
     );
 };

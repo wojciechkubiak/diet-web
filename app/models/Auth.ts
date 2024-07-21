@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { Token } from "./Token";
 
 export interface Auth {
@@ -6,6 +7,9 @@ export interface Auth {
 }
 
 export interface IAuthService {
-  loginUser: (loginData: Auth) => Promise<Token>;
+  loginUser: (
+    loginFormData: Auth,
+    rejectWithValue: (error: AxiosError) => void
+  ) => Promise<Token>;
   registerUser: (registerData: Auth) => Promise<Token>;
 }
