@@ -5,9 +5,11 @@ import { useSnackbar } from "notistack";
 import { useAppDispatch, useAppSelector } from "../../_store/store";
 import imagePath from "@/app/_assets/bg.jpg";
 import { loginUser } from "@/app/_store/auth/actions";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
 
   const error = useAppSelector((state) => state.auth.error);
@@ -68,6 +70,20 @@ export default function Login() {
         >
           Submit
         </button>
+        <div className="flex items-center justify-center space-x-2">
+          <span className="text-lg text-gray-700">
+            Don&apos;t have an account?
+          </span>
+          <button
+            className="text-lg text-emerald-500"
+            onClick={() => {
+              router.push("/register");
+            }}
+            type="button"
+          >
+            Create it
+          </button>
+        </div>
       </form>
     </div>
   );
