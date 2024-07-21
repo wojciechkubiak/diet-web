@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { loginUser } from "@/app/store/auth/actions";
 import { useSnackbar } from "notistack";
-import { useAppDispatch, useAppSelector } from "../store/store";
-import imagePath from "@/app/assets/bg.jpg";
+import { useAppDispatch, useAppSelector } from "../../_store/store";
+import imagePath from "@/app/_assets/bg.jpg";
+import { loginUser } from "@/app/_store/auth/actions";
 
 export default function Login() {
   const dispatch = useAppDispatch();

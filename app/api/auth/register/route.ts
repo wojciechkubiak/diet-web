@@ -1,5 +1,5 @@
-import { Auth } from "@/app/models/Auth";
-import { Token } from "@/app/models/Token";
+import { Auth } from "@/app/_models/Auth";
+import { Token } from "@/app/_models/Token";
 import axios from "axios";
 import { NextResponse } from "next/server";
 

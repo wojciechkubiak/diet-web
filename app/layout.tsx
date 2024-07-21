@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Ephesis } from "next/font/google";
 import "./globals.css";
-import Providers from "./providers/providers";
+import Providers from "./_providers/providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const ephesis = Ephesis({

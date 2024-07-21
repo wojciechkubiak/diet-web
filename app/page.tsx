@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Loader, { LoaderSize } from "./components/Loader";
-import { useAppSelector } from "./store/store";
-import { AuthStatus } from "./store/auth/slice";
+import Loader, { LoaderSize } from "./_components/Loader";
+import { useAppSelector } from "./_store/store";
+import { AuthStatus } from "./_store/auth/slice";
 
 const Home: React.FC = () => {
   const authStatus = useAppSelector((state) => state.auth.status);

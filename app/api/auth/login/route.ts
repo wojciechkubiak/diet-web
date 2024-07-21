@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import axios from "axios";
 import { NextResponse } from "next/server";
-import { Auth } from "@/app/models/Auth";
+import { Auth } from "@/app/_models/Auth";
 
 export const POST = async (request: Request) => {
   const loginData: Auth = await request.json();

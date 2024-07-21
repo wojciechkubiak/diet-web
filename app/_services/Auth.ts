@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
-import { Auth, IAuthService } from "../models/Auth";
-import { Token } from "../models/Token";
+import { Auth, IAuthService } from "../_models/Auth";
+import { Token } from "../_models/Token";
 
 export class AuthService implements IAuthService {
   async loginUser(
